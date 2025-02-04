@@ -512,7 +512,10 @@
     <p><strong>Общее количество работ:</strong> <span id="total-jobs">0</span></p>
     <p><strong>Общий процент:</strong> <span id="total-percent">0</span>%
         <button class="save-button" onclick="saveData()">💾 Сохранить</button>
+        <button class="save-button" onclick="sendEmail()">📧 Отправить на Email</button>
+
     </p>
+    
 
     <script>
 function calculateTotal() {
@@ -572,5 +575,32 @@ function calculateTotal() {
         
         window.onload = loadData;
     </script>
+    <script>
+        // Инициализация EmailJS
+        (function() {
+            emailjs.init("YOUR_USER_ID"); // Замените на ваш User ID из EmailJS
+        })();
+    
+        function sendEmail() {
+            let inputs = document.querySelectorAll('.percent-input');
+            let values = Array.from(inputs).map(input => input.value);
+    
+            let data = {
+                percentValues: values.join(", "), // Преобразуем в строку
+                totalPercent: document.getElementById('total-percent').textContent
+            };
+    
+            emailjs.send("service_m417yhp", "template_muub3fw", data)
+                .then((response) => {
+                    alert("Данные успешно отправлены на email!");
+                    console.log("SUCCESS!", response.status, response.text);
+                })
+                .catch((error) => {
+                    alert("Ошибка при отправке данных.");
+                    console.log("FAILED...", error);
+                });
+        }
+    </script>
+    
 </body>
 </html>
