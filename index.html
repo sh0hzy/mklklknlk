@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f4f4f4; }
+        .completed { background-color: #d4edda; }
+        .info-box {
+        background-color: #e5e5e5; /* Серый фон */
+        padding: 10px;
+        border-radius: 5px;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        color: #1f3b63; /* Темно-синий текст */
+    }
+
+    .info-box p {
+        margin: 5px 0;
+    }
+
+    .info-box strong {
+        font-size: 14px; /* Размер текста для заголовков */
+    }
+    .save-button {
+            padding: 8px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            margin-left: 10px;}
+
+    </style>
+</head>
+<body>
+    <div class="info-box">
+        <p><strong>CLIENT:</strong><br>Andrej Eisenbarth +971 55 295 50 17</p>
+        <p><strong>PROJECT LOCATION:</strong><br>Dubai, PDLM La Cote 5 - 511</p>
+    </div>
+    
+    <table border="1">
+        <tr>
+        <th>№</th>
+        <th>Наименование видов работ</th>
+        <th>%</th>
+    </tr>
+        <tr>
+            <th>1</th>
+            <th>Кухня</th> 
+            <th></th>
+        </tr>
+        <tr>
+            <th>1.1</th>
+            <th>Демонтаж потолка</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>    
+        <tr>
+            <th>1.2</th>
+            <th>Монтаж электровентиляции 1 шт</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>1.3</th>
+            <th>Усиление конструкции для установки вытяжки, Монтаж гипсокартонного потолка 16 м2</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>1.4</th>
+            <th>Монтаж светодиодного освещения</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr> 
+            <th>1.5</th>   
+            <th>Монтаж вентиляционной решетки и вытяжки Малярные работы с покраской 16 м2</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>1.6</th>
+            <th>Декоративная покраска стен 7 м2</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>2</th>
+            <th>Кладовая рядом с кухней</th> 
+            <th></th>
+        </tr>
+        <tr>
+            <th>2.1</th>
+            <th>Демонтаж и монтаж потолка со скрытым профилем 2,5 м2</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>2.2</th>
+            <th>Демонтаж и монтаж потолка со скрытым профилем 2,5 м2</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>2.3</th>
+            <th>Демонтаж и монтаж потолка со скрытым профилем 2,5 м2</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>2.4</th>
+            <th>Демонтаж и монтаж потолка со скрытым профилем 2,5 м2</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>3</th>
+            <th>Зал</th>
+            <th></th>
+        </tr>
+        <tr>
+            <th>3.1</th>
+            <th>Найти кабель на потолке и отделить трековый светильник в зале от балкона, плюс добавить один 
+                дополнительный кабель для теплого пола </th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>3.2</th>
+            <th>Проверка и выравнивание потолка шпатлевкой и наждачной бумагой</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>3.3</th>
+            <th>Покраска потолка 28м2 </th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>3.4</th>
+            <th>Заделка трещин в стенах</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>3.5</th>
+            <th>Заполнение щелей между дверными и оконными откосами </th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>3.6</th>
+            <th>Декоративная покраска стен 30м2</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>3.7</th>
+            <th>Установка розеток и выключателей </th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>3.8</th>
+            <th>Сделать вентиляционное отверстие со стороны подсветки, просто сделать пару круглых отверстий </th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>3.9</th>
+            <th>Установка для штор + светодиодная подсветка</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>3.10</th>
+            <th>Установка вентиляционных решеток 3 шт</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        <tr>
+            <th>4</th>
+            <th>Коридор</th>
+            <th></th>
+        </tr>
+        <tr>
+            <th>4.1</th>
+            <th>Проверка и выравнивание потолка шпаклевкой и наждачной бумагой  </th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>4.2</th>
+            <th>Покраска потолка 9,7 м2 </th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>4.3</th>
+            <th>Установка розеток и выключателей </th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>4.4</th>
+            <th>Выравнивание по линии и замена старых автоматических выключателей электрощитков</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>    
+        </tr>
+        <tr>
+            <th>4.5</th>
+            <th>Гостевая спальня</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>4.6</th>
+            <th>Доделка оставшейся части гипсокартона на потолке 2,5 м2 </th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>4.7</th>
+            <th>Проверка и выравнивание потолка шпаклевкой и наждачной бумагой</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>4.8</th>
+            <th>Заделка трещин в стенах</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>4.9</th>
+            <th>Заполнение щелей между оконными откосами</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>4.10</th>
+            <th>Покраска потолка 28,75 м2</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>4.11</th>
+            <th>Декоративная покраска стен 27 м2</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>4.12</th>
+            <th>Установка розеток и выключателей</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>4.13</th>
+            <th>Установка люстры и освещения</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>4.14</th>
+            <th>Сделать вентиляционное отверстие со стороны освещения, просто сделать пару круглых 
+                отверстий </th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+
+        </tr>
+        <tr>
+            <th>4.15</th>
+            <th>Установка для штор + светодиодное освещение</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>5</th>
+            <th>Детская спальня</th>
+            <th></th>
+        </tr>
+        <tr>
+            <th>5.1</th>
+            <th>-Проверка и выравнивание потолка шпатлевкой и наждачной бумагой</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>5.2</th>
+            <th>Заполнение щелей между откосами дверей и окон </th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>5.3</th>
+            <th>-Покраска стен и потолка 28м2 </th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>5.4</th>
+            <th>-Установка розеток и выключателей </th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>5.5</th>
+            <th>Установка люстры</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>5.6</th>
+            <th>Сделать вентиляционное отверстие со стороны подсветки, просто сделать пару круглых 
+                отверстий</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+            </tr>
+        <tr>
+            <th>5.7</th>
+            <th>Установка для штор + светодиодная подсветка</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        <tr>
+            <th>6</th>
+            <th>Главная спальня</th>
+            <th></th>
+        </tr>
+        <tr>
+            <th>6.1</th>
+            <th>Проверка и выравнивание потолка шпатлевкой и наждачной бумагой</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>6.2</th>
+            <th>Заполнение щелей между дверными и оконными откосами</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>6.3</th>
+            <th>Покраска потолка 24м2 </th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>6.4</th>
+            <th>Декоративная покраска стен 34м2</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>6.5</th>
+            <th>Установка розеток и выключателей </th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>6.6</th>
+            <th>Установка люстры и освещения</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>6.7</th>
+            <th>Сделать вентиляционное отверстие со стороны освещения, просто сделать пару круглых отверстий</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>6.8</th>
+            <th>Установка для штор + светодиодное освещение</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr> 
+        <tr>
+            <th>7</th>
+            <th>Главное складское помещение</th>
+            <th></th>
+        </tr> 
+        <tr>
+            <th>7.1</th>
+            <th>Демонтаж и монтаж потолка со скрытым профилем, а также каркаса для трекового освещения 6,5 м2</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr> 
+        <tr>
+            <th>7.2</th>
+            <th>Малярные работы с покраской 6,5 м2</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr> 
+        <tr>
+            <th>7.3</th>
+            <th>Монтаж трекового освещения</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr> 
+        <tr>
+            <th>7.4</th>
+            <th>Установка розеток и выключателей </th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr> 
+        <tr>
+            <th>7.5</th>
+            <th>Балкон </th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>7.6</th>
+            <th>Замена затирки на полу 17,36 м2 </th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>7.7</th>
+            <th>Регулировка и замена дверной резины 2 шт и окон 3 шт </th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>8</th>
+            <th>Кладовая в коридоре</th>
+            <th></th>
+        </tr>
+        <tr>
+            <th>8.1</th>
+            <th>Демонтаж и монтаж потолка со скрытым профилем, а также возведение каркаса для установки двери  4,75 м2 </th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>8.2</th>
+            <th>Малярные работы с покраской 4,75 м2</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>8.3</th>
+            <th>Монтаж светодиодного освещения 4 шт</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>9</th>
+            <th>Гостевой санузел</th>
+            <th></th>
+        </tr>
+         
+        <tr>
+            <th>9.1</th>
+            <th>Монтаж потолка из гипсокартона со скрытым профилем 4м2</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+         
+        <tr>
+            <th>9.2</th>
+            <th>Малярные работы с покраской 4м2</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+         
+        <tr>
+            <th>9.3</th>
+            <th>Монтаж светодиодного освещения 4 шт</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>9.4</th>
+            <th>Монтаж вентиляционных гофр и решеток 2 шт + 1 шт электровентиляция</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        
+        <tr>
+            <th>9.5</th>
+            <th>Вывод кабеля со стороны входной двери для управления вентиляцией </th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        
+        <tr>
+            <th>9.6</th>
+            <th>Монтаж 1 унитаза, подключение водоснабжения и канализации раковины</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        <tr>
+            <th>10</th>
+            <th>Ванная комната 2</th>
+            <th></th>
+        </tr>
+        
+        <tr>
+            <th>10.1</th>
+            <th>Монтаж потолка из гипсокартона со скрытым профилем 4м2</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        
+        <tr>
+            <th>10.2</th>
+            <th>Малярные работы с покраской 4м2</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        
+        <tr>
+            <th>10.3</th>
+            <th>Монтаж светодиодного освещения 4 шт</th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        
+        <tr>
+            <th>10.4</th>
+            <th>Монтаж вентиляционных гофр и решеток 2 шт + 1 шт электровентиляция </th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        
+        <tr>
+            <th>11</th>
+            <th>Главная ванная комната </th>
+            <th></th>
+        </tr>
+        
+        <tr>
+            <th>11.1</th>
+            <th>Монтаж гипсокартонного потолка со скрытым профилем 6,5 кв.м. </th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        
+        <tr>
+            <th>11.2</th>
+            <th>Малярные работы с покраской 6,5 кв.м. </th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        
+        <tr>
+            <th>11.3</th>
+            <th>Монтаж розеток и светодиодного освещения 8 шт. </th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        
+        <tr>
+            <th>11.4</th>
+            <th>Монтаж вентиляционных гофр и решеток 2 шт. + 1 шт. электровентиляция </th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        
+        <tr>
+            <th>11.5</th>
+            <th>Вывод кабеля со стороны входной двери для управления вентиляцией  </th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        
+        <tr>
+            <th>11.6</th>
+            <th>Монтаж унитаза 1 шт., подключение водоснабжения и канализации, раковины 2 шт. и смесителя для душа + светодиодное освещение ниши </th>
+            <th><input type="number" class="percent-input" min="0" max="100" value="0" oninput="calculateTotal()"></th>
+        </tr>
+        
+    </td>
+    </td>
+    </table>
+    <p><strong>Общее количество работ:</strong> <span id="total-jobs">0</span></p>
+    <p><strong>Общий процент:</strong> <span id="total-percent">0</span>%
+        <button class="save-button" onclick="saveData()">💾 Сохранить</button>
+    </p>
+
+    <script>
+function calculateTotal() {
+            let inputs = document.querySelectorAll('.percent-input');
+            let total = 0;
+            let count = 0;
+            let jobCount = 0;
+            inputs.forEach(input => {
+                let value = parseFloat(input.value);
+                if (!isNaN(value)) {
+                    total += value;
+                    count++;
+                    jobCount++;
+                }
+            });
+            console.log(total)
+            let average = count > 0 ? (total / count).toFixed(2) : 0;
+            document.getElementById('total-percent').innerText = average;
+            document.getElementById('total-jobs').textContent = jobCount;
+            localStorage.setItem('totalJobs', document.getElementById('total-jobs').textContent);
+        }
+        function saveData() {
+            let inputs = document.querySelectorAll('.percent-input');
+            let values = [];
+
+            inputs.forEach(input => {
+                values.push(input.value);
+            });
+
+            localStorage.setItem('percentValues', JSON.stringify(values));
+            localStorage.setItem('totalPercent', document.getElementById('total-percent').textContent);
+            
+            alert("Сохранено!");
+        }
+
+        function loadData() {
+            let savedValues = JSON.parse(localStorage.getItem('percentValues'));
+            let savedTotal = localStorage.getItem('totalPercent');
+            let savedJobs = localStorage.getItem('totalJobs');
+
+            if (savedValues) {
+                let inputs = document.querySelectorAll('.percent-input');
+                inputs.forEach((input, index) => {
+                    input.value = savedValues[index] || 0;
+                });
+            }
+
+            if (savedTotal) {
+                document.getElementById('total-percent').textContent = savedTotal;
+            }
+
+            if (savedJobs) {
+                document.getElementById('total-jobs').textContent = savedJobs;
+            }
+        }
+
+        
+        window.onload = loadData;
+    </script>
+</body>
+</html>
