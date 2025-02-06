@@ -583,26 +583,8 @@ function calculateTotal() {
             emailjs.init("VB4XxK6jjsQUENSOA"); // Замените на ваш User ID из EmailJS
         })();
     
-        function sendEmail() {
-            let inputs = document.querySelectorAll('.percent-input');
-            let values = Array.from(inputs).map(input => input.value);
-    
-            let data = {
-                percentValues: values.join(", "), // Преобразуем в строку
-                totalPercent: document.getElementById('total-percent').textContent
-            };
-    
-            emailjs.send("service_m417yhp", "template_muub3fw", data)
-                .then((response) => {
-                    alert("Данные успешно отправлены на email!");
-                    console.log("SUCCESS!", response.status, response.text);
-                })
-                .catch((error) => {
-                    alert("Ошибка при отправке данных.");
-                    console.log("FAILED...", error);
-                
-                });
-                let table = document.querySelector("table").outerHTML; // Получаем HTML таблицы
+function sendEmail() {
+    let table = document.querySelector("table").outerHTML; // Получаем HTML таблицы
 
     emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
         to_email: "ВАШ_EMAIL", // Куда отправлять
@@ -612,7 +594,8 @@ function calculateTotal() {
     }, function(error) {
         alert("Ошибка: " + JSON.stringify(error));
     });
-        }
+}
+
     </script>
     
 </body>
