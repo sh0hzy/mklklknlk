@@ -578,16 +578,11 @@ function calculateTotal() {
         window.onload = loadData;
     </script>
     <script>
-        // Инициализация EmailJS
-        (function() {
-            emailjs.init("VB4XxK6jjsQUENSOA"); // Замените на ваш User ID из EmailJS
-        })();
-    
 function sendEmail() {
     let table = document.querySelector("table").outerHTML; // Получаем HTML таблицы
 
-    emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
-        to_email: "ВАШ_EMAIL", // Куда отправлять
+    emailjs.send("VB4XxK6jjsQUENSOA", "template_muub3fw", {
+        to_email: "razakovshoh7@gmail.com", // Куда отправлять
         message_html: table // Отправляем таблицу в формате HTML
     }).then(function(response) {
         alert("Таблица отправлена!");
@@ -595,6 +590,7 @@ function sendEmail() {
         alert("Ошибка: " + JSON.stringify(error));
     });
 }
+
 
     </script>
     
