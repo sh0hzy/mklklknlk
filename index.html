@@ -604,13 +604,27 @@ function sendEmail() {
     let rows = document.querySelectorAll("table tr");
     let tableText = "";
 
+    // Формируем текст таблицы
     rows.forEach(row => {
         let cols = row.querySelectorAll("td, th");
         let rowData = [];
-        cols.forEach(col => rowData.push(col.innerText));
+        cols.forEach((col, index) => {
+            if (index === 0 || col.classList.contains("percent-input")) { 
+                rowData.push(col.innerText);
+            }
+        });
         tableText += rowData.join(" | ") + "\n"; // Разделяем столбцы " | "
     });
 
+    // Получаем общий процент и количество работ
+    let totalPercent = document.getElementById('total-percent').textContent;
+    let totalJobs = document.getElementById('total-jobs').textContent;
+
+    // Добавляем итоговые значения
+    tableText += `\nОбщий процент: ${totalPercent}%\n`;
+    tableText += `Всего работ: ${totalJobs}\n`;
+
+    // Отправляем данные через EmailJS
     emailjs.send("service_m417yhp", "template_muub3fw", {
         to_email: "razakovshoh7@gmail.com",
         message_html: tableText // Отправляем текстовый вариант
