@@ -623,7 +623,7 @@ function sendEmail() {
     tableText += "</table>";
 
     // Отправляем данные через EmailJS
-    emailjs.send"service_m417yhp", "template_muub3fw", {
+    emailjs.send("service_m417yhp", "template_muub3fw", {
           to_email: "razakovshoh7@gmail.com",
         message_html: tableText
     }).then(function(response) {
