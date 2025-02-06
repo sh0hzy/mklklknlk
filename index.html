@@ -599,21 +599,31 @@ emailjs.init("VB4XxK6jjsQUENSOA"); // Инициализируем EmailJS
 //             alert("Ошибка при отправке данных.");
 //             console.log("FAILED...", error);
 //         });
-// }
+// } 
 function sendEmail() {
     let rows = document.querySelectorAll("table tr");
     let tableText = "";
 
-    // Формируем текст таблицы
     rows.forEach(row => {
         let cols = row.querySelectorAll("td, th");
         let rowData = [];
+
         cols.forEach((col, index) => {
-            if (index === 0 || col.classList.contains("percent-input")) { 
+            if (index === 0) { 
+                // Получаем название работы
                 rowData.push(col.innerText);
+            } else {
+                // Ищем input в ячейке и получаем его значение
+                let input = col.querySelector("input.percent-input");
+                if (input) {
+                    rowData.push(input.value + "%");
+                }
             }
         });
-        tableText += rowData.join(" | ") + "\n"; // Разделяем столбцы " | "
+
+        if (rowData.length > 1) {
+            tableText += rowData.join(" | ") + "\n"; 
+        }
     });
 
     // Получаем общий процент и количество работ
@@ -627,7 +637,7 @@ function sendEmail() {
     // Отправляем данные через EmailJS
     emailjs.send("service_m417yhp", "template_muub3fw", {
         to_email: "razakovshoh7@gmail.com",
-        message_html: tableText // Отправляем текстовый вариант
+        message_html: tableText
     }).then(function(response) {
         alert("Таблица отправлена!");
     }, function(error) {
