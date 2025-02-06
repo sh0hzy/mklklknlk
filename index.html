@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Таблицач</title>
+    <title>Таблица</title>
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
@@ -579,26 +579,46 @@ function calculateTotal() {
     </script>
     <script>
 emailjs.init("VB4XxK6jjsQUENSOA"); // Инициализируем EmailJS
+// function sendEmail() {
+//     let inputs = document.querySelectorAll('.percent-input');
+//     let values = Array.from(inputs).map(input => input.value);
+//     let table = document.querySelector("table").outerHTML; // Получаем HTML таблицы
+
+//     let data = {
+//         percentValues: values.join(", "), // Преобразуем в строку
+//         totalPercent: document.getElementById('total-percent').textContent,
+//         tableHtml: table // Добавляем HTML таблицы
+//     };
+
+//     emailjs.send("service_m417yhp", "template_muub3fw", data)
+//         .then(function(response) {
+//             alert("Таблица и данные успешно отправлены на email!");
+//             console.log("SUCCESS!", response.status, response.text);
+//         })
+//         .catch(function(error) {
+//             alert("Ошибка при отправке данных.");
+//             console.log("FAILED...", error);
+//         });
+// }
 function sendEmail() {
-    let inputs = document.querySelectorAll('.percent-input');
-    let values = Array.from(inputs).map(input => input.value);
-    let table = document.querySelector("table").outerHTML; // Получаем HTML таблицы
+    let rows = document.querySelectorAll("table tr");
+    let tableText = "";
 
-    let data = {
-        percentValues: values.join(", "), // Преобразуем в строку
-        totalPercent: document.getElementById('total-percent').textContent,
-        tableHtml: table // Добавляем HTML таблицы
-    };
+    rows.forEach(row => {
+        let cols = row.querySelectorAll("td, th");
+        let rowData = [];
+        cols.forEach(col => rowData.push(col.innerText));
+        tableText += rowData.join(" | ") + "\n"; // Разделяем столбцы " | "
+    });
 
-    emailjs.send("service_m417yhp", "template_muub3fw", data)
-        .then(function(response) {
-            alert("Таблица и данные успешно отправлены на email!");
-            console.log("SUCCESS!", response.status, response.text);
-        })
-        .catch(function(error) {
-            alert("Ошибка при отправке данных.");
-            console.log("FAILED...", error);
-        });
+    emailjs.send("service_m417yhp", "template_muub3fw", {
+        to_email: "razakovshoh7@gmail.com",
+        message_html: tableText // Отправляем текстовый вариант
+    }).then(function(response) {
+        alert("Таблица отправлена!");
+    }, function(error) {
+        alert("Ошибка: " + JSON.stringify(error));
+    });
 }
 
 
