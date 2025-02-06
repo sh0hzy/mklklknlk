@@ -578,6 +578,7 @@ function calculateTotal() {
         window.onload = loadData;
     </script>
     <script>
+emailjs.init("ВАШ_USER_ID"); // Инициализируем EmailJS
 function sendEmail() {
     let inputs = document.querySelectorAll('.percent-input');
     let values = Array.from(inputs).map(input => input.value);
