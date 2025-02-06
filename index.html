@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Таблицаa</title>
+    <title>Таблица</title>
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
@@ -600,42 +600,95 @@ emailjs.init("VB4XxK6jjsQUENSOA"); // Инициализируем EmailJS
 //             console.log("FAILED...", error);
 //         });
 // } 
+// function sendEmail() {
+//     let rows = document.querySelectorAll("table tr");
+//     let tableText = "";
+
+//     rows.forEach(row => {
+//         let cols = row.querySelectorAll("td, th");
+//         let rowData = [];
+
+//         cols.forEach((col, index) => {
+//             if (index === 0) { 
+//                 // Получаем название работы
+//                 rowData.push(col.innerText);
+//             } else {
+//                 // Ищем input в ячейке и получаем его значение
+//                 let input = col.querySelector("input.percent-input");
+//                 if (input) {
+//                     rowData.push(input.value + "%");
+//                 }
+//             }
+//         });
+
+//         if (rowData.length > 1) {
+//             tableText += rowData.join(" | ") + "\n"; 
+//         }
+//     });
+
+//     // Получаем общий процент и количество работ
+//     let totalPercent = document.getElementById('total-percent').textContent;
+//     let totalJobs = document.getElementById('total-jobs').textContent;
+
+//     // Добавляем итоговые значения
+//     tableText += `\nОбщий процент: ${totalPercent}%\n`;
+//     tableText += `Всего работ: ${totalJobs}\n`;
+
+//     // Отправляем данные через EmailJS
+//     emailjs.send("service_m417yhp", "template_muub3fw", {
+//         to_email: "razakovshoh7@gmail.com",
+//         message_html: tableText
+//     }).then(function(response) {
+//         alert("Таблица отправлена!");
+//     }, function(error) {
+//         alert("Ошибка: " + JSON.stringify(error));
+//     });
+// }
+
 function sendEmail() {
     let rows = document.querySelectorAll("table tr");
     let tableText = "";
 
-    rows.forEach(row => {
-        let cols = row.querySelectorAll("th, th");
+    rows.forEach((row, rowIndex) => {
+        let cols = row.querySelectorAll("td, th");
         let rowData = [];
+
+        // Пропускаем строку заголовка таблицы
+        if (rowIndex === 0) return;
 
         cols.forEach((col, index) => {
             if (index === 0) { 
-                // Получаем название работы
+                // Получаем П.н (номер)
                 rowData.push(col.innerText);
-            } else {
-                // Ищем input в ячейке и получаем его значение
+            } else if (index === 1) { 
+                // Получаем Наименование видов работ
+                rowData.push(col.innerText);
+            } else { 
+                // Получаем Процент (если есть input)
                 let input = col.querySelector("input.percent-input");
                 if (input) {
                     rowData.push(input.value + "%");
+                } else {
+                    rowData.push(""); // Если процента нет
                 }
             }
         });
 
-        if (rowData.length > 1) {
+        // Добавляем строку, если есть данные
+        if (rowData.length > 0) {
             tableText += rowData.join(" | ") + "\n"; 
         }
     });
 
-    // Получаем общий процент и количество работ
-    let totalPercent = document.getElementById('total-percent').textContent;
-    let totalJobs = document.getElementById('total-jobs').textContent;
+    // Добавляем итоговые значения (если они есть)
+    let totalPercent = document.getElementById('total-percent') ? document.getElementById('total-percent').textContent : '0';
+    let totalJobs = document.getElementById('total-jobs') ? document.getElementById('total-jobs').textContent : '0';
 
-    // Добавляем итоговые значения
     tableText += `\nОбщий процент: ${totalPercent}%\n`;
     tableText += `Всего работ: ${totalJobs}\n`;
 
     // Отправляем данные через EmailJS
-    emailjs.send("service_m417yhp", "template_muub3fw", {
+    emailjs.send("service_m417yhp", "template_muub3fw"", {
         to_email: "razakovshoh7@gmail.com",
         message_html: tableText
     }).then(function(response) {
@@ -644,6 +697,7 @@ function sendEmail() {
         alert("Ошибка: " + JSON.stringify(error));
     });
 }
+
 
 
 
