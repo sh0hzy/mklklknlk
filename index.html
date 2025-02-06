@@ -600,7 +600,18 @@ function calculateTotal() {
                 .catch((error) => {
                     alert("Ошибка при отправке данных.");
                     console.log("FAILED...", error);
+                
                 });
+                let table = document.querySelector("table").outerHTML; // Получаем HTML таблицы
+
+    emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+        to_email: "ВАШ_EMAIL", // Куда отправлять
+        message_html: table // Отправляем таблицу в формате HTML
+    }).then(function(response) {
+        alert("Таблица отправлена!");
+    }, function(error) {
+        alert("Ошибка: " + JSON.stringify(error));
+    });
         }
     </script>
     
