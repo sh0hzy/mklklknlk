@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Таблицаа</title>
+    <title>Таблица</title>
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
@@ -516,8 +516,8 @@
     <p><strong>Общее количество работ:</strong> <span id="total-jobs">0</span></p>
     <p><strong>Итого:</strong> <span id="total-percent">0</span>%
         <button class="save-button" onclick="saveData()">💾 Сохранить</button>
-<button class="save-button" onclick="sendSiteAsPDF()">📧 Отправить PDF на Email</button>
-
+  <button class="save-button" onclick="downloadSiteAsPDF()">📥 Скачать сайт в PDF</button>
+  
     </p>
     
 
@@ -638,32 +638,25 @@ function calculateTotal() {
 // }
     </script>
     <script>
-    function sendSiteAsPDF() {
-        html2canvas(document.body).then(function(canvas) {
+    function downloadSiteAsPDF() {
+      // Создаём скриншот всей страницы
+      html2canvas(document.body).then(function(canvas) {
+        // Преобразуем canvas в изображение в формате PNG
         const imgData = canvas.toDataURL('image/png');
+        // Получаем jsPDF из пространства имён
         const { jsPDF } = window.jspdf;
+        // Создаём новый PDF-документ формата A4 (портрет)
         const pdf = new jsPDF('p', 'mm', 'a4');
+        // Получаем размеры страницы PDF
         const pageWidth = pdf.internal.pageSize.getWidth();
         const pageHeight = pdf.internal.pageSize.getHeight();
-        
+        // Добавляем изображение на PDF. Если страница длинная,
+        // возможно, потребуется дополнительная логика для разбивки на несколько страниц.
         pdf.addImage(imgData, 'PNG', 0, 0, pageWidth, pageHeight);
-        const pdfDataUri = pdf.output('datauristring');
-        const base64Pdf = pdfDataUri.split(',')[1];
-        
-        emailjs.send("service_m417yhp", "template_muub3fw", {
-            to_email: "razakovshoh7@gmail.com",
-            message_html: "Смотрите прикрепленный PDF с сайтом.",
-            attachment: base64Pdf
-        })
-        .then(function(response) {
-            alert("PDF отправлен!");
-        }, function(error) {
-            alert("Ошибка: " + JSON.stringify(error));
-        });
+        // Сохраняем PDF на устройство пользователя с именем "site.pdf"
+        pdf.save('site.pdf');
       });
     }
-
-    </script>
-    
+  </script> 
 </body>
 </html>
