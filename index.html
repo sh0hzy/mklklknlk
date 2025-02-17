@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Таблица</title>
+    <title>Таблицаа</title>
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
@@ -580,44 +580,44 @@ function calculateTotal() {
         window.onload = loadData;
     </script>
     <script>
-emailjs.init("VB4XxK6jjsQUENSOA"); // Инициализируем EmailJS
+    emailjs.init("VB4XxK6jjsQUENSOA"); // Инициализируем EmailJS
 
 
 
-function sendEmail() {
-    let rows = document.querySelectorAll("table tr");
-    let tableText = "";
+// function sendEmail() {
+//     let rows = document.querySelectorAll("table tr");
+//     let tableText = "";
 
-    rows.forEach((row, rowIndex) => {
-        let cols = row.querySelectorAll("td, th");
-        let rowData = [];
+//     rows.forEach((row, rowIndex) => {
+//         let cols = row.querySelectorAll("td, th");
+//         let rowData = [];
 
-        // Пропускаем строку заголовка таблицы
-        if (rowIndex === 0) return;
+//         // Пропускаем строку заголовка таблицы
+//         if (rowIndex === 0) return;
 
-        cols.forEach((col, index) => {
-            if (index === 0) { 
-                // Получаем П.н (номер)
-                rowData.push(col.innerText);
-            } else if (index === 1) { 
-                // Получаем Наименование видов работ
-                rowData.push(col.innerText);
-            } else { 
-                // Получаем Процент (если есть input)
-                let input = col.querySelector("input.percent-input");
-                if (input) {
-                    rowData.push(input.value + "%");
-                } else {
-                    rowData.push(""); // Если процента нет
-                }
-            }
-        });
+//         cols.forEach((col, index) => {
+//             if (index === 0) { 
+//                 // Получаем П.н (номер)
+//                 rowData.push(col.innerText);
+//             } else if (index === 1) { 
+//                 // Получаем Наименование видов работ
+//                 rowData.push(col.innerText);
+//             } else { 
+//                 // Получаем Процент (если есть input)
+//                 let input = col.querySelector("input.percent-input");
+//                 if (input) {
+//                     rowData.push(input.value + "%");
+//                 } else {
+//                     rowData.push(""); // Если процента нет
+//                 }
+//             }
+//         });
 
-        // Добавляем строку, если есть данные
-        if (rowData.length > 0) {
-            tableText += rowData.join(" | ") + "\n"; 
-        }
-    });
+//         // Добавляем строку, если есть данные
+//         if (rowData.length > 0) {
+//             tableText += rowData.join(" | ") + "\n"; 
+//         }
+//     });
 
     // Добавляем итоговые значения (если они есть)
     let totalPercent = document.getElementById('total-percent') ? document.getElementById('total-percent').textContent : '0';
@@ -636,11 +636,10 @@ function sendEmail() {
 //         alert("Ошибка: " + JSON.stringify(error));
 //     });
 // }
-<!-- Подключаем необходимые библиотеки -->
-
+    </script>
     <script>
-function sendSiteAsPDF() {
-      html2canvas(document.body).then(function(canvas) {
+    function sendSiteAsPDF() {
+        html2canvas(document.body).then(function(canvas) {
         const imgData = canvas.toDataURL('image/png');
         const { jsPDF } = window.jspdf;
         const pdf = new jsPDF('p', 'mm', 'a4');
