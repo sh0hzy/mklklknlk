@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Таблицаа</title>
+    <title>Таблица</title>
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
@@ -516,8 +516,6 @@
     <p><strong>Общее количество работ:</strong> <span id="total-jobs">0</span></p>
     <p><strong>Итого:</strong> <span id="total-percent">0</span>%
         <button class="save-button" onclick="saveData()">💾 Сохранить</button>
-  <button class="save-button" onclick="downloadSiteAsPDF()">📥 Скачать сайт в PDF</button>
-  
     </p>
     
 
@@ -623,7 +621,7 @@ function sendEmail() {
     let totalPercent = document.getElementById('total-percent') ? document.getElementById('total-percent').textContent : '0';
     let totalJobs = document.getElementById('total-jobs') ? document.getElementById('total-jobs').textContent : '0';
 
-    tableText += `\nОбщий процент: ${totalPercent}%\n`;
+    tableText += `\nИтого: ${totalPercent}%\n`;
     tableText += `Всего работ: ${totalJobs}\n`;
 
     // Отправляем данные через EmailJS
@@ -672,7 +670,9 @@ function sendEmail() {
             pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
             heightLeft -= pageHeight;
           }
-
+        doc.setFontSize(12);
+        doc.text(`Общий прогресс: ${progress}%`, 10, doc.internal.pageSize.height - 10);  // Размещаем текст внизу страницы
+        }
           pdf.save('site.pdf');
           document.getElementById("downloadPDF").style.display = "block";
         });
