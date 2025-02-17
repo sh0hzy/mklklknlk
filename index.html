@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Таблица</title>
+    <title>Таблицаф</title>
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
@@ -669,10 +669,9 @@ function sendEmail() {
             pdf.addPage();
             pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
             heightLeft -= pageHeight;
-          }
-        doc.setFontSize(12);
-        doc.text(`Общий прогресс: ${progress}%`, 10, doc.internal.pageSize.height - 10);  // Размещаем текст внизу страницы
-        }
+          }                            
+            document.getElementById('total-percent').textContent = progress;
+
           pdf.save('site.pdf');
           document.getElementById("downloadPDF").style.display = "block";
         });
