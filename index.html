@@ -514,7 +514,7 @@
     <p><strong>Общее количество работ:</strong> <span id="total-jobs">0</span></p>
     <p><strong>Итого:</strong> <span id="total-percent">0</span>%
         <button class="save-button" onclick="saveData()">💾 Сохранить</button>
-        <button class="save-button" onclick="sendEmail()">📧 Отправить на Email</button>
+<button class="save-button" onclick="sendSiteAsPDF()">📧 Отправить PDF на Email</button>
 
     </p>
     
@@ -625,17 +625,61 @@ function sendEmail() {
     tableText += `Всего работ: ${totalJobs}\n`;
 
     // Отправляем данные через EmailJS
-    emailjs.send("service_m417yhp", "template_muub3fw", {
-        to_email: "razakovshoh7@gmail.com",
-        message_html: tableText
-    }).then(function(response) {
-        alert("Таблица отправлена!");
+//     emailjs.send("service_m417yhp", "template_muub3fw", {
+//         to_email: "razakovshoh7@gmail.com",
+//         message_html: tableText
+//     }).then(function(response) {
+//         alert("Таблица отправлена!");
+//     }, function(error) {
+//         alert("Ошибка: " + JSON.stringify(error));
+//     });
+// }
+<!-- Подключаем необходимые библиотеки -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+  function sendSiteAsPDF() {
+    // Создаем скриншот всей страницы
+    html2canvas(document.body).then(function(canvas) {
+      // Преобразуем canvas в изображение в формате PNG
+      const imgData = canvas.toDataURL('image/png');
+      
+      // Используем jsPDF (из пространства имен window.jspdf)
+      const { jsPDF } = window.jspdf;
+      // Создаем PDF в формате A4 (портрет)
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      
+      // Получаем размеры страницы PDF
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      
+      // Добавляем изображение на PDF.
+      // Обратите внимание, что если страница длинная, может понадобиться рассчитать масштаб или разбить на несколько страниц.
+      pdf.addImage(imgData, 'PNG', 0, 0, pageWidth, pageHeight);
+      
+      // Получаем PDF в виде data URI (строка вида "data:application/pdf;base64,...")
+      const pdfDataUri = pdf.output('datauristring');
+      // Извлекаем чистую Base64-строку, убирая префикс
+      const base64Pdf = pdfDataUri.split(',')[1];
+      
+      // Отправляем письмо через EmailJS с вложением
+      emailjs.send("service_m417yhp", "template_muub3fw", {
+    to_email: "razakovshoh7@gmail.com",
+    message_html: "Смотрите прикрепленный PDF с сайтом.",
+    total_percent: document.getElementById('total-percent').textContent,
+    total_jobs: document.getElementById('total-jobs').textContent,
+    attachment: base64Pdf  // Base64-строка PDF, полученная из jsPDF
+    })
+    .then(function(response) {
+        alert("PDF отправлен!");
     }, function(error) {
         alert("Ошибка: " + JSON.stringify(error));
     });
-}
 
-
+    });
+  }
+</script>
 
 
     </script>
