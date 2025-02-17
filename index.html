@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Таблицаф</title>
+    <title>Таблица</title>
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
@@ -517,76 +517,74 @@
     <p><strong>Итого:</strong> <span id="total-percent">0</span>%
         <button class="save-button" onclick="saveData()">💾 Сохранить</button>
     </p>
+
     
-
-    <script>
-function calculateTotal() {
-            let inputs = document.querySelectorAll('.percent-input');
-            let total = 0;
-            let count = 0;
-            let jobCount = 0;
-            inputs.forEach(input => {
-                let value = parseFloat(input.value);
-                if (!isNaN(value)) {
-                    total += value;
-                    count++;
-                    jobCount++;
-                }
-            });
-            console.log(total)
-            let average = count > 0 ? (total / count).toFixed(2) : 0;
-            document.getElementById('total-percent').innerText = average;
-            document.getElementById('total-jobs').textContent = jobCount;
-            localStorage.setItem('totalJobs', document.getElementById('total-jobs').textContent);
+      <script>
+    function calculateTotal() {
+      let inputs = document.querySelectorAll('.percent-input');
+      let total = 0;
+      let count = 0;
+      let jobCount = 0;
+      inputs.forEach(input => {
+        let value = parseFloat(input.value);
+        if (!isNaN(value)) {
+          total += value;
+          count++;
+          jobCount++;
         }
-        function saveData() {
-            let inputs = document.querySelectorAll('.percent-input');
-            let values = [];
+      });
+      let average = count > 0 ? (total / count).toFixed(2) : 0;
+      document.getElementById('total-percent').innerText = average;
+      document.getElementById('total-jobs').textContent = jobCount;
+      localStorage.setItem('totalJobs', document.getElementById('total-jobs').textContent);
+    }
 
-            inputs.forEach(input => {
-                values.push(input.value);
-            });
+    function saveData() {
+      let inputs = document.querySelectorAll('.percent-input');
+      let values = [];
 
-            localStorage.setItem('percentValues', JSON.stringify(values));
-            localStorage.setItem('totalPercent', document.getElementById('total-percent').textContent);
-            
-            alert("Сохранено!");
-        }
+      inputs.forEach(input => {
+        values.push(input.value);
+      });
 
-        function loadData() {
-            let savedValues = JSON.parse(localStorage.getItem('percentValues'));
-            let savedTotal = localStorage.getItem('totalPercent');
-            let savedJobs = localStorage.getItem('totalJobs');
+      localStorage.setItem('percentValues', JSON.stringify(values));
+      localStorage.setItem('totalPercent', document.getElementById('total-percent').textContent);
 
-            if (savedValues) {
-                let inputs = document.querySelectorAll('.percent-input');
-                inputs.forEach((input, index) => {
-                    input.value = savedValues[index] || 0;
-                });
-            }
+      alert("Сохранено!");
+    }
 
-            if (savedTotal) {
-                document.getElementById('total-percent').textContent = savedTotal;
-            }
+    function loadData() {
+      let savedValues = JSON.parse(localStorage.getItem('percentValues'));
+      let savedTotal = localStorage.getItem('totalPercent');
+      let savedJobs = localStorage.getItem('totalJobs');
 
-            if (savedJobs) {
-                document.getElementById('total-jobs').textContent = savedJobs;
-            }
-        }
+      if (savedValues) {
+        let inputs = document.querySelectorAll('.percent-input');
+        inputs.forEach((input, index) => {
+          input.value = savedValues[index] || 0;
+        });
+      }
 
-        
-        window.onload = loadData;
-    </script>
-    <script>
+      if (savedTotal) {
+        document.getElementById('total-percent').textContent = savedTotal;
+      }
+
+      if (savedJobs) {
+        document.getElementById('total-jobs').textContent = savedJobs;
+      }
+    }
+
+    window.onload = loadData;
+  </script>
+
+  <script>
     emailjs.init("VB4XxK6jjsQUENSOA"); // Инициализируем EmailJS
 
+    function sendEmail() {
+      let rows = document.querySelectorAll("table tr");
+      let tableText = "";
 
-
-function sendEmail() {
-    let rows = document.querySelectorAll("table tr");
-    let tableText = "";
-
-    rows.forEach((row, rowIndex) => {
+      rows.forEach((row, rowIndex) => {
         let cols = row.querySelectorAll("td, th");
         let rowData = [];
 
@@ -594,67 +592,66 @@ function sendEmail() {
         if (rowIndex === 0) return;
 
         cols.forEach((col, index) => {
-            if (index === 0) { 
-                // Получаем П.н (номер)
-                rowData.push(col.innerText);
-            } else if (index === 1) { 
-                // Получаем Наименование видов работ
-                rowData.push(col.innerText);
-            } else { 
-                // Получаем Процент (если есть input)
-                let input = col.querySelector("input.percent-input");
-                if (input) {
-                    rowData.push(input.value + "%");
-                } else {
-                    rowData.push(""); // Если процента нет
-                }
+          if (index === 0) {
+            rowData.push(col.innerText);
+          } else if (index === 1) {
+            rowData.push(col.innerText);
+          } else {
+            let input = col.querySelector("input.percent-input");
+            if (input) {
+              rowData.push(input.value + "%");
+            } else {
+              rowData.push("");
             }
+          }
         });
 
-        // Добавляем строку, если есть данные
         if (rowData.length > 0) {
-            tableText += rowData.join(" | ") + "\n"; 
+          tableText += rowData.join(" | ") + "\n";
         }
-    });
+      });
 
-    // Добавляем итоговые значения (если они есть)
-    let totalPercent = document.getElementById('total-percent') ? document.getElementById('total-percent').textContent : '0';
-    let totalJobs = document.getElementById('total-jobs') ? document.getElementById('total-jobs').textContent : '0';
+      let totalPercent = document.getElementById('total-percent') ? document.getElementById('total-percent').textContent : '0';
+      let totalJobs = document.getElementById('total-jobs') ? document.getElementById('total-jobs').textContent : '0';
 
-    tableText += `\nИтого: ${totalPercent}%\n`;
-    tableText += `Всего работ: ${totalJobs}\n`;
+      tableText += `\nИтого: ${totalPercent}%\n`;
+      tableText += `Всего работ: ${totalJobs}\n`;
 
-    // Отправляем данные через EmailJS
-//     emailjs.send("service_m417yhp", "template_muub3fw", {
-//         to_email: "razakovshoh7@gmail.com",
-//         message_html: tableText
-//     }).then(function(response) {
-//         alert("Таблица отправлена!");
-//     }, function(error) {
-//         alert("Ошибка: " + JSON.stringify(error));
-//     });
-// }
-    </script>
+      // Отправка через EmailJS (закомментировано)
+      // emailjs.send("service_m417yhp", "template_muub3fw", {
+      //   to_email: "razakovshoh7@gmail.com",
+      //   message_html: tableText
+      // }).then(function(response) {
+      //   alert("Таблица отправлена!");
+      // }, function(error) {
+      //   alert("Ошибка: " + JSON.stringify(error));
+      // });
+    }
+  </script>
 
-  <button class="save-button" id="downloadPDF">📥 Скачать сайт в PDF</button>
+  <!-- Кнопка для скачивания PDF с классом no-pdf -->
+  <button class="save-button no-pdf" id="downloadPDF">📥 Скачать сайт в PDF</button>
 
   <script>
-    document.getElementById("downloadPDF").addEventListener("click", function() {
-      // Скрываем кнопку перед созданием PDF
-      this.style.display = "none";
-      
-      // Ожидаем завершения скрытия
+    document.getElementById("downloadPDF").addEventListener("click", function () {
+      // Скрываем элементы с классом no-pdf (только кнопки)
+      var elementsToHide = document.querySelectorAll('.no-pdf');
+      elementsToHide.forEach(function (el) {
+        el.style.display = "none";
+      });
+
+      // Скрываем саму кнопку скачивания PDF (она также имеет класс no-pdf, но на всякий случай)
+      var downloadButton = this;
+      downloadButton.style.display = "none";
+
       setTimeout(() => {
-        html2canvas(document.body, { scale: 2 }).then(function(canvas) {
+        html2canvas(document.body, { scale: 2 }).then(function (canvas) {
           const { jsPDF } = window.jspdf;
           const pdf = new jsPDF('p', 'mm', 'a4');
           const imgData = canvas.toDataURL('image/png');
-          
-          // Размеры страницы PDF
+
           const pageWidth = pdf.internal.pageSize.getWidth();
           const pageHeight = pdf.internal.pageSize.getHeight();
-          
-          // Размеры canvas
           const imgWidth = pageWidth;
           const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
@@ -669,11 +666,15 @@ function sendEmail() {
             pdf.addPage();
             pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
             heightLeft -= pageHeight;
-          }                            
-            document.getElementById('total-percent').textContent = progress;
+          }
 
           pdf.save('site.pdf');
-          document.getElementById("downloadPDF").style.display = "block";
+
+          // Восстанавливаем скрытые элементы (только кнопки)
+          elementsToHide.forEach(function (el) {
+            el.style.display = "";
+          });
+          downloadButton.style.display = "block";
         });
       }, 100);
     });
